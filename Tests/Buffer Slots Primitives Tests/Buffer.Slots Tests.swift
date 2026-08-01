@@ -15,16 +15,16 @@ import Testing
 // operations recover the metadata type through the same-type pin on `S`.
 private typealias Slots = Buffer<Store.Split<Storage<Memory.Allocator<Memory.Heap>>.Contiguous<UInt8>, Storage<Memory.Allocator<Memory.Heap>>.Contiguous<Int>>>.Slots
 
-@Suite("Buffer.Slots")
-struct SlotsTests {
+@Suite
+struct `Buffer.Slots Tests` {
     @Suite struct Unit {}
-    @Suite struct EdgeCase {}
+    @Suite struct `Edge Case` {}
     @Suite struct Integration {}
 }
 
 // MARK: - Unit
 
-extension SlotsTests.Unit {
+extension `Buffer.Slots Tests`.Unit {
 
     @Test
     func `init creates buffer with requested capacity`() {
@@ -153,12 +153,12 @@ extension SlotsTests.Unit {
 
 // MARK: - Edge Cases
 
-extension SlotsTests.EdgeCase {
+extension `Buffer.Slots Tests`.`Edge Case` {
 
     @Test
     func `all metadata initially uniform`() {
         let buffer = Slots(capacity: 8, metadataInitial: 0x80)
-        for i: UInt in 0..<8 {
+        (UInt(0)..<8).forEach { i in
             let slot = Index<Int>(_unchecked: Ordinal(i))
             #expect(buffer[metadata: slot] == 0x80)
         }
@@ -211,7 +211,7 @@ extension SlotsTests.EdgeCase {
 
 // MARK: - Integration
 
-extension SlotsTests.Integration {
+extension `Buffer.Slots Tests`.Integration {
 
     @Test
     func `Swiss-table lifecycle — insert, probe, delete`() {
@@ -278,7 +278,7 @@ extension SlotsTests.Integration {
         // Scan for matching h2 values
         let matches = unsafe buffer.withMetadataPointer { ptr in
             var result: [Int] = []
-            for i in 0..<8 {
+            (0..<8).forEach { i in
                 if unsafe ptr[i] == 0x42 {
                     result.append(i)
                 }

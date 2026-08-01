@@ -87,4 +87,4 @@ extension Buffer where S: Store.`Protocol`, S: ~Copyable {
 /// ## Non-Goals
 ///
 /// - Not a shared concurrent buffer.
-extension Buffer.Slots: @unsafe @unchecked Sendable where S: Sendable {}
+extension Buffer.Slots: @unchecked Sendable where S: Sendable {}
