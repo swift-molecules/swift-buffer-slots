@@ -21,8 +21,16 @@ extension Buffer.Slots where S: ~Copyable {
     public init<M: BitwiseCopyable, E: ~Copyable>(
         capacity: Index<E>.Count,
         metadataInitial: M
-    ) where S == Store.Split<Storage<Memory.Allocator<Memory.Heap>>.Contiguous<M>, Storage<Memory.Allocator<Memory.Heap>>.Contiguous<E>> {
-        var lanes = Storage<Memory.Allocator<Memory.Heap>>.Contiguous<M>.create(minimumCapacity: capacity.retag(M.self))
+    )
+    where
+        S == Store.Split<
+            Storage<Memory.Allocator<Memory.Heap>>.Contiguous<M>,
+            Storage<Memory.Allocator<Memory.Heap>>.Contiguous<E>
+        >
+    {
+        var lanes = Storage<Memory.Allocator<Memory.Heap>>.Contiguous<M>.create(
+            minimumCapacity: capacity.retag(M.self)
+        )
         var slot: Index<M> = .zero
         let end = capacity.retag(M.self).map(Ordinal.init)
         while slot < end {
@@ -33,7 +41,9 @@ extension Buffer.Slots where S: ~Copyable {
             header: Header(capacity: capacity),
             storage: Store.Split(
                 lanes: lanes,
-                elements: Storage<Memory.Allocator<Memory.Heap>>.Contiguous<E>.create(minimumCapacity: capacity)
+                elements: Storage<Memory.Allocator<Memory.Heap>>.Contiguous<E>.create(
+                    minimumCapacity: capacity
+                )
             )
         )
     }

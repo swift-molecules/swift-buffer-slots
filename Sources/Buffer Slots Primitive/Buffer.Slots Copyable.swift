@@ -35,7 +35,12 @@ extension Buffer.Slots where S: ~Copyable {
     /// ledger is reset to `.empty` (the untracked discipline).
     @inlinable
     public mutating func fill<M: BitwiseCopyable, E: BitwiseCopyable>(payload value: E)
-    where S == Store.Split<Storage<Memory.Allocator<Memory.Heap>>.Contiguous<M>, Storage<Memory.Allocator<Memory.Heap>>.Contiguous<E>> {
+    where
+        S == Store.Split<
+            Storage<Memory.Allocator<Memory.Heap>>.Contiguous<M>,
+            Storage<Memory.Allocator<Memory.Heap>>.Contiguous<E>
+        >
+    {
         var slot: Index<E> = .zero
         let end = header.capacity.map(Ordinal.init)
         while slot < end {
