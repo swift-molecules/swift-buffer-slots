@@ -13,7 +13,12 @@ import Testing
 // The canonical tower under test has element type `Int` and metadata type `UInt8`
 // (the Swiss-table control-byte shape). Aliased for readability; the dual-plane
 // operations recover the metadata type through the same-type pin on `S`.
-private typealias Slots = Buffer<Store.Split<Storage<Memory.Allocator<Memory.Heap>>.Contiguous<UInt8>, Storage<Memory.Allocator<Memory.Heap>>.Contiguous<Int>>>.Slots
+private typealias Slots = Buffer<
+    Store.Split<
+        Storage<Memory.Allocator<Memory.Heap>>.Contiguous<UInt8>,
+        Storage<Memory.Allocator<Memory.Heap>>.Contiguous<Int>
+    >
+>.Slots
 
 @Suite
 struct `Buffer.Slots Tests` {
