@@ -161,7 +161,7 @@ extension Buffer.Slots where S: ~Copyable {
     {
         try storage.withLanes { lanes throws(Failure) -> R in
             let span = lanes.span
-            return try unsafe span.withUnsafeBufferPointer { buffer throws(Failure) -> R in
+            return try span.withUnsafeBufferPointer { buffer throws(Failure) -> R in
                 // The lanes plane is allocated for `capacity` metadata slots and stays fully
                 // initialized for its whole life, so a non-empty slots buffer always has a
                 // non-nil base; SIMD control-byte scanning needs the raw base pointer.
@@ -189,7 +189,7 @@ extension Buffer.Slots where S: ~Copyable {
     {
         try storage.withMutableLanes { lanes throws(Failure) -> R in
             var span = lanes.mutableSpan
-            return try unsafe span.withUnsafeMutableBufferPointer { buffer throws(Failure) -> R in
+            return try span.withUnsafeMutableBufferPointer { buffer throws(Failure) -> R in
                 // The lanes plane is allocated for `capacity` metadata slots and stays fully
                 // initialized for its whole life, so a non-empty slots buffer always has a
                 // non-nil base; SIMD control-byte scanning needs the raw base pointer.
