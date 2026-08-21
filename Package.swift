@@ -12,12 +12,9 @@ let package = Package(
         .visionOS(.v27),
     ],
     products: [
-        // MARK: - Type module — the lean `~Copyable` `Buffer.Slots` type plus the operations
-        //         that touch its storage internals (`@usableFromInline internal` per [MOD-036]).
+
         .library(name: "Buffer Slots Primitive", targets: ["Buffer Slots Primitive"]),
-        // MARK: - Umbrella — `Buffer Slots Primitives` doubles as the [MOD-005] umbrella. Slots is
-        //         single-variant and carries no Copyable-imposing conformance, so the type/ops
-        //         split is degenerate: the umbrella is exports-only (re-exports the type module).
+
         .library(name: "Buffer Slots Primitives", targets: ["Buffer Slots Primitives"]),
         .library(
             name: "Buffer Slots Primitives Test Support",
@@ -29,7 +26,7 @@ let package = Package(
             url: "https://github.com/swift-primitives/swift-buffer-primitives.git",
             branch: "main"
         ),
-        // W3 tower: resolve the changed storage stack against the canonical-basename worktrees.
+
         .package(
             url: "https://github.com/swift-primitives/swift-storage-primitives.git",
             branch: "main"
@@ -65,9 +62,6 @@ let package = Package(
     ],
     targets: [
 
-        // MARK: - Type module — lean `~Copyable` `Buffer.Slots` + `@usableFromInline internal`
-        //         ops co-located with storage ([MOD-036]). Single-variant: no satellite, so
-        //         no `package` window and no [MOD-037] cross-variant pinning.
         .target(
             name: "Buffer Slots Primitive",
             dependencies: [
@@ -90,16 +84,13 @@ let package = Package(
             ]
         ),
 
-        // MARK: - Umbrella — exports-only ([MOD-005]). Re-exports the type module; carries no
-        //         conformances of its own (slots exposes none). Acyclic per [MOD-032]: depends
-        //         on the type module singular, never the reverse.
         .target(
             name: "Buffer Slots Primitives",
             dependencies: [
                 "Buffer Slots Primitive"
             ]
         ),
-        // MARK: - Test Support
+
         .target(
             name: "Buffer Slots Primitives Test Support",
             dependencies: [
@@ -112,7 +103,6 @@ let package = Package(
             path: "Tests/Support"
         ),
 
-        // MARK: - Tests
         .testTarget(
             name: "Buffer Slots Primitives Tests",
             dependencies: ["Buffer Slots Primitives", "Buffer Slots Primitives Test Support"]

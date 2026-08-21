@@ -5,14 +5,6 @@ import Storage_Contiguous_Primitives
 import Store_Split_Primitives
 import Testing
 
-// Buffer.Slots is generic over its dual-plane split substrate `S` (b-pin:
-// `Buffer<Store.Split<Storage<…System>.Contiguous<Metadata>, Storage<…System>.Contiguous<Element>>>.Slots`).
-// Per [TEST-004] we use the parallel namespace pattern — @Suite in extensions of
-// generic type specializations is silently not discovered by Swift Testing.
-//
-// The canonical tower under test has element type `Int` and metadata type `UInt8`
-// (the Swiss-table control-byte shape). Aliased for readability; the dual-plane
-// operations recover the metadata type through the same-type pin on `S`.
 private typealias Slots = Buffer<
     Store.Split<
         Storage<Memory.Allocator<Memory.Heap>>.Contiguous<UInt8>,
@@ -26,8 +18,6 @@ struct `Buffer.Slots Tests` {
     @Suite struct `Edge Case` {}
     @Suite struct Integration {}
 }
-
-// MARK: - Unit
 
 extension `Buffer.Slots Tests`.Unit {
 
@@ -109,19 +99,19 @@ extension `Buffer.Slots Tests`.Unit {
         #expect(buffer[payload: 1] == 0)
         #expect(buffer[payload: 2] == 0)
         #expect(buffer[payload: 3] == 0)
-        // Clean up — all slots are initialized via fill
+
         buffer.deinitialize(where: { _ in true })
     }
 
     @Test
     func `deinitialize where cleans up occupied slots`() {
         var buffer = Slots(capacity: 4, metadataInitial: 0x80)
-        // Simulate Swiss-table: 0x80 = empty, anything else = occupied
+
         buffer.initialize(to: 10, at: 0)
         buffer[metadata: 0] = 0x01
         buffer.initialize(to: 20, at: 2)
         buffer[metadata: 2] = 0x02
-        // Slots 1 and 3 remain uninitialized (metadata 0x80)
+
         buffer.deinitialize(where: { $0 != 0x80 })
     }
 
@@ -153,10 +143,6 @@ extension `Buffer.Slots Tests`.Unit {
     }
 
 }
-// The prior `pointer(at:)` returning escape hatch is WITHDRAWN (depointer arc) and Buffer.Slots
-// is MOVE-ONLY per R-1 — their tests are removed; CoW coverage re-materializes at the W4 ADTs.
-
-// MARK: - Edge Cases
 
 extension `Buffer.Slots Tests`.`Edge Case` {
 
@@ -172,14 +158,14 @@ extension `Buffer.Slots Tests`.`Edge Case` {
     @Test
     func `deinitialize where with no occupied slots is safe`() {
         var buffer = Slots(capacity: 4, metadataInitial: 0x80)
-        // No elements initialized — should be a no-op
+
         buffer.deinitialize(where: { $0 != 0x80 })
     }
 
     @Test
     func `deinitialize where with all occupied slots`() {
         var buffer = Slots(capacity: 4, metadataInitial: 0x00)
-        // metadataInitial 0x00 means "occupied" in our predicate
+
         buffer.initialize(to: 1, at: 0)
         buffer.initialize(to: 2, at: 1)
         buffer.initialize(to: 3, at: 2)
@@ -207,14 +193,11 @@ extension `Buffer.Slots Tests`.`Edge Case` {
         let moved = buffer.move(at: slot)
         #expect(moved == 100)
 
-        // Re-initialize the same slot
         buffer.initialize(to: 200, at: slot)
         let moved2 = buffer.move(at: slot)
         #expect(moved2 == 200)
     }
 }
-
-// MARK: - Integration
 
 extension `Buffer.Slots Tests`.Integration {
 
@@ -223,16 +206,13 @@ extension `Buffer.Slots Tests`.Integration {
         let empty: UInt8 = 0x80
         var buffer = Slots(capacity: 8, metadataInitial: empty)
 
-        // Insert: slot 3 gets h2=0x42, payload=100
         let slot: Index<Int> = 3
         buffer.initialize(to: 100, at: slot)
         buffer[metadata: slot] = 0x42
 
-        // Probe: find slot via metadata, read payload
         #expect(buffer[metadata: slot] == 0x42)
         #expect(buffer[payload: slot] == 100)
 
-        // Delete: move payload out, mark empty
         let removed = buffer.move(at: slot)
         buffer[metadata: slot] = empty
         #expect(removed == 100)
@@ -244,7 +224,6 @@ extension `Buffer.Slots Tests`.Integration {
         let empty: UInt8 = 0x80
         var buffer = Slots(capacity: 8, metadataInitial: empty)
 
-        // Populate slots 0, 2, 5, 7
         let slots: [(Index<Int>, Int, UInt8)] = [
             (0, 10, 0x01),
             (2, 20, 0x02),
@@ -256,19 +235,16 @@ extension `Buffer.Slots Tests`.Integration {
             buffer[metadata: slot] = h2
         }
 
-        // Verify all occupied
         for (slot, value, h2) in slots {
             #expect(buffer[metadata: slot] == h2)
             #expect(buffer[payload: slot] == value)
         }
 
-        // Verify unoccupied slots still empty
         #expect(buffer[metadata: 1] == empty)
         #expect(buffer[metadata: 3] == empty)
         #expect(buffer[metadata: 4] == empty)
         #expect(buffer[metadata: 6] == empty)
 
-        // Cleanup via deinitialize(where:)
         buffer.deinitialize(where: { $0 != empty })
     }
 
@@ -280,7 +256,6 @@ extension `Buffer.Slots Tests`.Integration {
         buffer[metadata: 4] = 0x42
         buffer[metadata: 6] = 0x42
 
-        // Scan for matching h2 values
         let matches = unsafe buffer.withMetadataPointer { ptr in
             var result: [Int] = []
             (0..<8).forEach { i in
