@@ -1,4 +1,4 @@
-# Buffer Slots Primitives
+# Buffer Slots
 
 ![Development Status](https://img.shields.io/badge/status-active--development-blue.svg)
 
@@ -19,7 +19,7 @@ substrate for open-addressed hash tables, where the control bytes and the payloa
 allocation.
 
 ```swift
-import Buffer_Slots_Primitives
+import Buffer_Slots
 
 // `Buffer.Slots` is generic over its dual-plane split substrate. The canonical tower carries
 // `Int` payloads behind `UInt8` control bytes — the Swiss-table shape. Alias it for readability.
@@ -60,7 +60,7 @@ fixed-capacity: growth is a consumer concern (allocate a larger buffer and re-in
 
 ```swift
 dependencies: [
-    .package(url: "https://github.com/swift-primitives/swift-buffer-slots-primitives.git", branch: "main")
+    .package(url: "https://github.com/swift-molecules/swift-buffer-slots.git", branch: "main")
 ]
 ```
 
@@ -68,7 +68,7 @@ dependencies: [
 .target(
     name: "App",
     dependencies: [
-        .product(name: "Buffer Slots Primitives", package: "swift-buffer-slots-primitives"),
+        .product(name: "Buffer Slots", package: "swift-buffer-slots"),
     ]
 )
 ```
@@ -80,16 +80,14 @@ and macOS 26 / iOS 26 / tvOS 26 / watchOS 26 / visionOS 26 (or the matching Linu
 
 ## Architecture
 
-`Buffer.Slots` ships as two modules: a lean type module (the value type plus every operation that
-touches its storage) and an exports-only umbrella. Slots is single-variant and carries no
-`Copyable`-imposing conformance, so — unlike the multi-variant disciplines — there are no separate
-conformance modules; the umbrella simply re-exports the type module.
+`Buffer.Slots` ships as one module containing the value type and every operation that touches its
+storage. Slots is single-variant and carries no `Copyable`-imposing conformance, so — unlike the
+multi-variant disciplines — it needs no separate conformance module.
 
 | Product | Target | Purpose |
 |---------|--------|---------|
-| `Buffer Slots Primitive` | `Sources/Buffer Slots Primitive/` | The `Buffer.Slots` value type plus every storage-touching operation: the capacity initializer, the metadata and payload subscripts, the element-lifecycle operations (`initialize` / `move` / `deinitialize`), bulk fills, and the `withMetadataPointer` SIMD escape hatch. |
-| `Buffer Slots Primitives` | `Sources/Buffer Slots Primitives/` | The package umbrella — exports-only; re-exports the type module so a single `import` brings in the whole package. |
-| `Buffer Slots Primitives Test Support` | `Tests/Support/` | Re-exports the package for test consumers. |
+| `Buffer Slots` | `Sources/Buffer Slots/` | The `Buffer.Slots` value type plus its capacity initializer, metadata and payload subscripts, element-lifecycle operations (`initialize` / `move` / `deinitialize`), bulk fills, and the `withMetadataPointer` SIMD escape hatch. |
+| `Buffer Slots Test Support` | `Tests/Support/` | Re-exports the package for test consumers. |
 
 Foundation-free.
 
@@ -108,9 +106,9 @@ Foundation-free.
 
 ## Related Packages
 
-- [`swift-buffer-primitives`](https://github.com/swift-primitives/swift-buffer-primitives) — the `Buffer` namespace and capacity-growth vocabulary.
-- [`swift-storage-split-primitives`](https://github.com/swift-primitives/swift-storage-split-primitives) — the split storage substrate (metadata + element dual arrays in one allocation).
-- Sibling disciplines: `swift-buffer-linear-primitives`, `swift-buffer-ring-primitives`, `swift-buffer-slab-primitives`, `swift-buffer-linked-primitives`, `swift-buffer-arena-primitives`.
+- [`swift-buffer`](https://github.com/swift-molecules/swift-buffer) — the `Buffer` namespace and capacity-growth vocabulary.
+- [`swift-storage-split`](https://github.com/swift-molecules/swift-storage-split) — the split storage substrate (metadata + element dual arrays in one allocation).
+- Sibling disciplines: `swift-buffer-linear`, `swift-buffer-ring`, `swift-buffer-slab`, `swift-buffer-linked`, `swift-buffer-arena`.
 
 ---
 

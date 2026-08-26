@@ -1,8 +1,8 @@
-import Buffer_Primitive
-import Buffer_Slots_Primitives
-import Buffer_Slots_Primitives_Test_Support
-import Storage_Contiguous_Primitives
-import Store_Split_Primitives
+import Buffer
+import Buffer_Slots
+import Buffer_Slots_Test_Support
+import Storage_Contiguous
+import Store_Split
 import Testing
 
 private typealias Slots = Buffer<

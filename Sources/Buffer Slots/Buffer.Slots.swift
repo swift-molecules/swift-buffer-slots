@@ -1,9 +1,9 @@
-public import Buffer_Primitive
-import Memory_Allocator_Primitive
-import Memory_Heap_Primitives
-public import Storage_Contiguous_Primitives
-public import Store_Protocol_Primitives
-import Store_Split_Primitives
+public import Buffer
+import Memory_Allocator
+import Memory_Heap
+public import Storage_Contiguous
+public import Store_Protocol
+import Store_Split
 
 extension Buffer where S: Store.`Protocol`, S: ~Copyable {
 

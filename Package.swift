@@ -3,7 +3,7 @@
 import PackageDescription
 
 let package = Package(
-    name: "swift-buffer-slots-primitives",
+    name: "swift-buffer-slots",
     platforms: [
         .macOS(.v27),
         .iOS(.v27),
@@ -13,99 +13,90 @@ let package = Package(
     ],
     products: [
 
-        .library(name: "Buffer Slots Primitive", targets: ["Buffer Slots Primitive"]),
-
-        .library(name: "Buffer Slots Primitives", targets: ["Buffer Slots Primitives"]),
+        .library(name: "Buffer Slots", targets: ["Buffer Slots"]),
         .library(
-            name: "Buffer Slots Primitives Test Support",
-            targets: ["Buffer Slots Primitives Test Support"]
+            name: "Buffer Slots Test Support",
+            targets: ["Buffer Slots Test Support"]
         ),
     ],
     dependencies: [
         .package(
-            url: "https://github.com/swift-primitives/swift-buffer-primitives.git",
+            url: "https://github.com/swift-molecules/swift-buffer.git",
             branch: "main"
         ),
 
         .package(
-            url: "https://github.com/swift-primitives/swift-storage-primitives.git",
+            url: "https://github.com/swift-molecules/swift-storage.git",
             branch: "main"
         ),
         .package(
-            url: "https://github.com/swift-primitives/swift-storage-split-primitives.git",
+            url: "https://github.com/swift-molecules/swift-storage-split.git",
             branch: "main"
         ),
         .package(
-            url: "https://github.com/swift-primitives/swift-memory-allocation-primitives.git",
+            url: "https://github.com/swift-molecules/swift-memory-allocation.git",
             branch: "main"
         ),
         .package(
-            url: "https://github.com/swift-primitives/swift-index-primitives.git",
+            url: "https://github.com/swift-molecules/swift-index.git",
             branch: "main"
         ),
         .package(
-            url: "https://github.com/swift-primitives/swift-affine-primitives.git",
+            url: "https://github.com/swift-molecules/swift-affine.git",
             branch: "main"
         ),
         .package(
-            url: "https://github.com/swift-primitives/swift-ordinal-primitives.git",
+            url: "https://github.com/swift-molecules/swift-ordinal.git",
             branch: "main"
         ),
         .package(
-            url: "https://github.com/swift-primitives/swift-memory-primitives.git",
+            url: "https://github.com/swift-molecules/swift-memory.git",
             branch: "main"
         ),
         .package(
-            url: "https://github.com/swift-primitives/swift-memory-heap-primitives.git",
+            url: "https://github.com/swift-molecules/swift-memory-heap.git",
             branch: "main"
         ),
     ],
     targets: [
 
         .target(
-            name: "Buffer Slots Primitive",
+            name: "Buffer Slots",
             dependencies: [
-                .product(name: "Buffer Primitive", package: "swift-buffer-primitives"),
-                .product(name: "Store Split Primitives", package: "swift-storage-split-primitives"),
-                .product(name: "Store Protocol Primitives", package: "swift-storage-primitives"),
+                .product(name: "Buffer", package: "swift-buffer"),
+                .product(name: "Store Split", package: "swift-storage-split"),
+                .product(name: "Store Protocol", package: "swift-storage"),
                 .product(
-                    name: "Memory Allocator Primitive",
-                    package: "swift-memory-allocation-primitives"
+                    name: "Memory Allocator",
+                    package: "swift-memory-allocation"
                 ),
                 .product(
-                    name: "Storage Contiguous Primitives",
-                    package: "swift-storage-primitives"
+                    name: "Storage Contiguous",
+                    package: "swift-storage"
                 ),
-                .product(name: "Memory Heap Primitives", package: "swift-memory-heap-primitives"),
-                .product(name: "Index Primitives", package: "swift-index-primitives"),
-                .product(name: "Memory Primitives", package: "swift-memory-primitives"),
-                .product(name: "Affine Primitives", package: "swift-affine-primitives"),
-                .product(name: "Ordinal Primitives", package: "swift-ordinal-primitives"),
+                .product(name: "Memory Heap", package: "swift-memory-heap"),
+                .product(name: "Index", package: "swift-index"),
+                .product(name: "Memory", package: "swift-memory"),
+                .product(name: "Affine", package: "swift-affine"),
+                .product(name: "Ordinal", package: "swift-ordinal"),
             ]
         ),
 
         .target(
-            name: "Buffer Slots Primitives",
+            name: "Buffer Slots Test Support",
             dependencies: [
-                "Buffer Slots Primitive"
-            ]
-        ),
-
-        .target(
-            name: "Buffer Slots Primitives Test Support",
-            dependencies: [
-                "Buffer Slots Primitives",
+                "Buffer Slots",
                 .product(
-                    name: "Memory Primitives Test Support",
-                    package: "swift-memory-primitives"
+                    name: "Memory Test Support",
+                    package: "swift-memory"
                 ),
             ],
             path: "Tests/Support"
         ),
 
         .testTarget(
-            name: "Buffer Slots Primitives Tests",
-            dependencies: ["Buffer Slots Primitives", "Buffer Slots Primitives Test Support"]
+            name: "Buffer Slots Tests",
+            dependencies: ["Buffer Slots", "Buffer Slots Test Support"]
         ),
     ],
     swiftLanguageModes: [.v6]
