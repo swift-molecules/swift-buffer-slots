@@ -1,9 +1,5 @@
 public import Buffer
-import Memory_Allocator
-import Memory_Heap
-public import Storage_Contiguous
-public import Store_Protocol
-import Store_Split
+public import Storage
 
 extension Buffer where S: Store.`Protocol`, S: ~Copyable {
 

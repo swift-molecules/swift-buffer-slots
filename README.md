@@ -20,22 +20,25 @@ allocation.
 
 ```swift
 import Buffer_Slots
+import Cardinal
+import Index
+import Tagged
 
 // `Buffer.Slots` is generic over its dual-plane split substrate. The canonical tower carries
 // `Int` payloads behind `UInt8` control bytes — the Swiss-table shape. Alias it for readability.
 typealias Table = Buffer<
     Store.Split<
-        Storage<Memory.Allocator<Memory.Heap>>.Contiguous<UInt8>,
-        Storage<Memory.Allocator<Memory.Heap>>.Contiguous<Int>
+        Storage<Memory.Allocator<Memory.Small<0>>>.Contiguous<UInt8>,
+        Storage<Memory.Allocator<Memory.Small<0>>>.Contiguous<Int>
     >
 >.Slots
 
 // 8 slots, metadata byte 0x80 = "empty" (the Swiss-table convention).
 let empty: UInt8 = 0x80
-var table = Table(capacity: 8, metadataInitial: empty)
+var table = Table(capacity: Tagged<Int, Cardinal>(8), metadataInitial: empty)
 
 // Insert: write the payload, then mark the slot occupied with its h2 hash byte.
-let slot: Index<Int> = 3
+let slot = Index<Int>(3)
 table.initialize(to: 100, at: slot)
 table[metadata: slot] = 0x42
 
@@ -106,7 +109,7 @@ Foundation-free.
 
 ## Related Packages
 
-- [`swift-buffer`](https://github.com/swift-molecules/swift-buffer) — the `Buffer` namespace and capacity-growth vocabulary.
+- [`swift-buffer`](https://github.com/swift-atoms/swift-buffer) — the `Buffer` namespace and capacity-growth vocabulary.
 - [`swift-storage-split`](https://github.com/swift-molecules/swift-storage-split) — the split storage substrate (metadata + element dual arrays in one allocation).
 - Sibling disciplines: `swift-buffer-linear`, `swift-buffer-ring`, `swift-buffer-slab`, `swift-buffer-linked`, `swift-buffer-arena`.
 

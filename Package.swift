@@ -21,12 +21,12 @@ let package = Package(
     ],
     dependencies: [
         .package(
-            url: "https://github.com/swift-molecules/swift-buffer.git",
+            url: "https://github.com/swift-atoms/swift-buffer.git",
             branch: "main"
         ),
 
         .package(
-            url: "https://github.com/swift-molecules/swift-storage.git",
+            url: "https://github.com/swift-atoms/swift-storage.git",
             branch: "main"
         ),
         .package(
@@ -38,23 +38,35 @@ let package = Package(
             branch: "main"
         ),
         .package(
-            url: "https://github.com/swift-molecules/swift-index.git",
+            url: "https://github.com/swift-molecules/swift-memory-small.git",
             branch: "main"
         ),
         .package(
-            url: "https://github.com/swift-molecules/swift-affine.git",
+            url: "https://github.com/swift-molecules/swift-storage-memory.git",
             branch: "main"
         ),
         .package(
-            url: "https://github.com/swift-molecules/swift-ordinal.git",
+            url: "https://github.com/swift-atoms/swift-index.git",
             branch: "main"
         ),
         .package(
-            url: "https://github.com/swift-molecules/swift-memory.git",
+            url: "https://github.com/swift-atoms/swift-affine.git",
             branch: "main"
         ),
         .package(
-            url: "https://github.com/swift-molecules/swift-memory-heap.git",
+            url: "https://github.com/swift-atoms/swift-ordinal.git",
+            branch: "main"
+        ),
+        .package(
+            url: "https://github.com/swift-atoms/swift-memory.git",
+            branch: "main"
+        ),
+        .package(
+            url: "https://github.com/swift-atoms/swift-cardinal.git",
+            branch: "main"
+        ),
+        .package(
+            url: "https://github.com/swift-atoms/swift-tagged.git",
             branch: "main"
         ),
     ],
@@ -65,20 +77,31 @@ let package = Package(
             dependencies: [
                 .product(name: "Buffer", package: "swift-buffer"),
                 .product(name: "Store Split", package: "swift-storage-split"),
-                .product(name: "Store Protocol", package: "swift-storage"),
+                .product(name: "Storage", package: "swift-storage"),
                 .product(
-                    name: "Memory Allocator",
+                    name: "Memory Allocator Primitive",
                     package: "swift-memory-allocation"
                 ),
                 .product(
-                    name: "Storage Contiguous",
-                    package: "swift-storage"
+                    name: "Memory Allocator Protocol",
+                    package: "swift-memory-allocation"
                 ),
-                .product(name: "Memory Heap", package: "swift-memory-heap"),
+                .product(name: "Memory Small", package: "swift-memory-small"),
+                .product(name: "Storage Memory", package: "swift-storage-memory"),
                 .product(name: "Index", package: "swift-index"),
                 .product(name: "Memory", package: "swift-memory"),
                 .product(name: "Affine", package: "swift-affine"),
+                .product(
+                    name: "Affine Standard Library Integration",
+                    package: "swift-affine"
+                ),
                 .product(name: "Ordinal", package: "swift-ordinal"),
+                .product(
+                    name: "Ordinal Standard Library Integration",
+                    package: "swift-ordinal"
+                ),
+                .product(name: "Cardinal", package: "swift-cardinal"),
+                .product(name: "Tagged", package: "swift-tagged"),
             ]
         ),
 
@@ -86,17 +109,30 @@ let package = Package(
             name: "Buffer Slots Test Support",
             dependencies: [
                 "Buffer Slots",
-                .product(
-                    name: "Memory Test Support",
-                    package: "swift-memory"
-                ),
             ],
             path: "Tests/Support"
         ),
 
         .testTarget(
             name: "Buffer Slots Tests",
-            dependencies: ["Buffer Slots", "Buffer Slots Test Support"]
+            dependencies: [
+                "Buffer Slots",
+                "Buffer Slots Test Support",
+                .product(name: "Buffer", package: "swift-buffer"),
+                .product(name: "Store Split", package: "swift-storage-split"),
+                .product(name: "Storage", package: "swift-storage"),
+                .product(name: "Storage Memory", package: "swift-storage-memory"),
+                .product(
+                    name: "Memory Allocator Primitive",
+                    package: "swift-memory-allocation"
+                ),
+                .product(name: "Memory Small", package: "swift-memory-small"),
+                .product(name: "Memory", package: "swift-memory"),
+                .product(name: "Index", package: "swift-index"),
+                .product(name: "Ordinal", package: "swift-ordinal"),
+                .product(name: "Cardinal", package: "swift-cardinal"),
+                .product(name: "Tagged", package: "swift-tagged"),
+            ]
         ),
     ],
     swiftLanguageModes: [.v6]

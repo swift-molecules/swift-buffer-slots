@@ -1,11 +1,16 @@
 import Affine_Standard_Library_Integration
 public import Buffer
+public import Cardinal
 public import Index
-public import Memory_Allocator
-public import Memory_Heap
+public import Memory
+public import Memory_Allocator_Primitive
+public import Memory_Small
+public import Ordinal
 import Ordinal_Standard_Library_Integration
-public import Storage_Contiguous
+public import Storage
+public import Storage_Memory
 public import Store_Split
+public import Tagged
 
 extension Buffer.Slots where S: ~Copyable, S.Element: Copyable {
 
@@ -22,12 +27,12 @@ extension Buffer.Slots where S: ~Copyable {
     public mutating func fill<M: BitwiseCopyable, E: BitwiseCopyable>(payload value: E)
     where
         S == Store.Split<
-            Storage<Memory.Allocator<Memory.Heap>>.Contiguous<M>,
-            Storage<Memory.Allocator<Memory.Heap>>.Contiguous<E>
+            Storage<Memory.Allocator<Memory.Small<0>>>.Contiguous<M>,
+            Storage<Memory.Allocator<Memory.Small<0>>>.Contiguous<E>
         >
     {
         var slot: Index<E> = .zero
-        let end = header.capacity.map(Ordinal.init)
+        let end = header.capacity.map { Ordinal($0.rawValue) }
         while slot < end {
             storage.initialize(at: slot, to: value)
             slot += .one

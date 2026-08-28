@@ -1,11 +1,16 @@
 import Affine_Standard_Library_Integration
 public import Buffer
+public import Cardinal
 public import Index
-public import Memory_Allocator
-public import Memory_Heap
+public import Memory
+public import Memory_Allocator_Primitive
+public import Memory_Small
+public import Ordinal
 import Ordinal_Standard_Library_Integration
-public import Storage_Contiguous
+public import Storage
+public import Storage_Memory
 public import Store_Split
+public import Tagged
 
 extension Buffer.Slots where S: ~Copyable {
 
@@ -13,8 +18,8 @@ extension Buffer.Slots where S: ~Copyable {
     public subscript<M, E: ~Copyable>(metadata slot: Index<E>) -> M
     where
         S == Store.Split<
-            Storage<Memory.Allocator<Memory.Heap>>.Contiguous<M>,
-            Storage<Memory.Allocator<Memory.Heap>>.Contiguous<E>
+            Storage<Memory.Allocator<Memory.Small<0>>>.Contiguous<M>,
+            Storage<Memory.Allocator<Memory.Small<0>>>.Contiguous<E>
         >
     {
         get { storage.lanes[slot.retag(M.self)] }
@@ -31,8 +36,8 @@ extension Buffer.Slots where S: ~Copyable {
     )
     where
         S == Store.Split<
-            Storage<Memory.Allocator<Memory.Heap>>.Contiguous<M>,
-            Storage<Memory.Allocator<Memory.Heap>>.Contiguous<E>
+            Storage<Memory.Allocator<Memory.Small<0>>>.Contiguous<M>,
+            Storage<Memory.Allocator<Memory.Small<0>>>.Contiguous<E>
         >
     {
         storage.initialize(at: slot, to: value)
@@ -43,8 +48,8 @@ extension Buffer.Slots where S: ~Copyable {
     public mutating func move<M: BitwiseCopyable, E: ~Copyable>(at slot: Index<E>) -> E
     where
         S == Store.Split<
-            Storage<Memory.Allocator<Memory.Heap>>.Contiguous<M>,
-            Storage<Memory.Allocator<Memory.Heap>>.Contiguous<E>
+            Storage<Memory.Allocator<Memory.Small<0>>>.Contiguous<M>,
+            Storage<Memory.Allocator<Memory.Small<0>>>.Contiguous<E>
         >
     {
         let element = storage.move(at: slot)
@@ -56,8 +61,8 @@ extension Buffer.Slots where S: ~Copyable {
     public mutating func deinitialize<M: BitwiseCopyable, E: ~Copyable>(at slot: Index<E>)
     where
         S == Store.Split<
-            Storage<Memory.Allocator<Memory.Heap>>.Contiguous<M>,
-            Storage<Memory.Allocator<Memory.Heap>>.Contiguous<E>
+            Storage<Memory.Allocator<Memory.Small<0>>>.Contiguous<M>,
+            Storage<Memory.Allocator<Memory.Small<0>>>.Contiguous<E>
         >
     {
         _ = storage.move(at: slot)
@@ -71,12 +76,12 @@ extension Buffer.Slots where S: ~Copyable {
     public mutating func fill<M: BitwiseCopyable, E: ~Copyable>(metadata value: M)
     where
         S == Store.Split<
-            Storage<Memory.Allocator<Memory.Heap>>.Contiguous<M>,
-            Storage<Memory.Allocator<Memory.Heap>>.Contiguous<E>
+            Storage<Memory.Allocator<Memory.Small<0>>>.Contiguous<M>,
+            Storage<Memory.Allocator<Memory.Small<0>>>.Contiguous<E>
         >
     {
         var slot: Index<M> = .zero
-        let end = header.capacity.retag(M.self).map(Ordinal.init)
+        let end = header.capacity.retag(M.self).map { Ordinal($0.rawValue) }
         while slot < end {
             storage.lanes.initialize(at: slot, to: value)
             slot += .one
@@ -87,12 +92,12 @@ extension Buffer.Slots where S: ~Copyable {
     public mutating func deinitialize<M, E: ~Copyable>(where isOccupied: (M) -> Bool)
     where
         S == Store.Split<
-            Storage<Memory.Allocator<Memory.Heap>>.Contiguous<M>,
-            Storage<Memory.Allocator<Memory.Heap>>.Contiguous<E>
+            Storage<Memory.Allocator<Memory.Small<0>>>.Contiguous<M>,
+            Storage<Memory.Allocator<Memory.Small<0>>>.Contiguous<E>
         >
     {
         var slot: Index<E> = .zero
-        let end = header.capacity.map(Ordinal.init)
+        let end = header.capacity.map { Ordinal($0.rawValue) }
         while slot < end {
             if isOccupied(storage.lanes[slot.retag(M.self)]) {
                 _ = storage.move(at: slot)
@@ -111,8 +116,8 @@ extension Buffer.Slots where S: ~Copyable {
     ) throws(Failure) -> R
     where
         S == Store.Split<
-            Storage<Memory.Allocator<Memory.Heap>>.Contiguous<M>,
-            Storage<Memory.Allocator<Memory.Heap>>.Contiguous<E>
+            Storage<Memory.Allocator<Memory.Small<0>>>.Contiguous<M>,
+            Storage<Memory.Allocator<Memory.Small<0>>>.Contiguous<E>
         >
     {
         try storage.withLanes { lanes throws(Failure) -> R in
@@ -135,8 +140,8 @@ extension Buffer.Slots where S: ~Copyable {
     ) throws(Failure) -> R
     where
         S == Store.Split<
-            Storage<Memory.Allocator<Memory.Heap>>.Contiguous<M>,
-            Storage<Memory.Allocator<Memory.Heap>>.Contiguous<E>
+            Storage<Memory.Allocator<Memory.Small<0>>>.Contiguous<M>,
+            Storage<Memory.Allocator<Memory.Small<0>>>.Contiguous<E>
         >
     {
         try storage.withMutableLanes { lanes throws(Failure) -> R in
