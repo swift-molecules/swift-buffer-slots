@@ -1,3 +1,9 @@
+import Cardinal_Tagged
+import Cardinal_Carrier
+import Ordinal_Tagged
+import Store_Initialization
+import Store_Protocol
+import Store
 import Buffer
 import Buffer_Slots
 import Buffer_Slots_Test_Support
@@ -25,7 +31,7 @@ private func capacity(_ rawValue: UInt) -> Tagged<Int, Cardinal> {
 }
 
 private func slot(_ rawValue: UInt) -> Index<Int> {
-    Index(rawValue)
+    Index(_unchecked: Ordinal(rawValue))
 }
 
 @Suite

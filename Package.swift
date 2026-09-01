@@ -78,6 +78,14 @@ let package = Package(
                 .product(name: "Buffer", package: "swift-buffer"),
                 .product(name: "Store Split", package: "swift-store"),
                 .product(name: "Storage", package: "swift-storage"),
+                .product(name: "Store", package: "swift-store"),
+                .product(name: "Cardinal Carrier", package: "swift-cardinal"),
+                .product(name: "Cardinal Tagged", package: "swift-cardinal"),
+                .product(name: "Ordinal Cardinal", package: "swift-ordinal"),
+                .product(name: "Ordinal Protocol", package: "swift-ordinal"),
+                .product(name: "Ordinal Tagged", package: "swift-ordinal"),
+                .product(name: "Store Initialization", package: "swift-store"),
+                .product(name: "Store Protocol", package: "swift-store"),
                 .product(
                     name: "Memory Allocator",
                     package: "swift-memory-allocation"
@@ -116,11 +124,18 @@ let package = Package(
         .testTarget(
             name: "Buffer Slots Tests",
             dependencies: [
+                .product(name: "Store Initialization", package: "swift-store"),
+                .product(name: "Ordinal", package: "swift-ordinal"),
+                .product(name: "Ordinal Tagged", package: "swift-ordinal"),
+                .product(name: "Cardinal Carrier", package: "swift-cardinal"),
+                .product(name: "Cardinal Tagged", package: "swift-cardinal"),
                 "Buffer Slots",
                 "Buffer Slots Test Support",
                 .product(name: "Buffer", package: "swift-buffer"),
                 .product(name: "Store Split", package: "swift-store"),
                 .product(name: "Storage", package: "swift-storage"),
+                .product(name: "Store", package: "swift-store"),
+                .product(name: "Store Protocol", package: "swift-store"),
                 .product(name: "Storage Memory", package: "swift-storage-memory"),
                 .product(
                     name: "Memory Allocator",
