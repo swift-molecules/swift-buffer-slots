@@ -21,16 +21,16 @@ let package = Package(
     ],
     dependencies: [
         .package(
+            url: "https://github.com/swift-atoms/swift-store.git",
+            branch: "main"
+        ),
+        .package(
             url: "https://github.com/swift-atoms/swift-buffer.git",
             branch: "main"
         ),
 
         .package(
             url: "https://github.com/swift-atoms/swift-storage.git",
-            branch: "main"
-        ),
-        .package(
-            url: "https://github.com/swift-molecules/swift-storage-split.git",
             branch: "main"
         ),
         .package(
@@ -76,7 +76,7 @@ let package = Package(
             name: "Buffer Slots",
             dependencies: [
                 .product(name: "Buffer", package: "swift-buffer"),
-                .product(name: "Store Split", package: "swift-storage-split"),
+                .product(name: "Store Split", package: "swift-store"),
                 .product(name: "Storage", package: "swift-storage"),
                 .product(
                     name: "Memory Allocator Primitive",
@@ -119,7 +119,7 @@ let package = Package(
                 "Buffer Slots",
                 "Buffer Slots Test Support",
                 .product(name: "Buffer", package: "swift-buffer"),
-                .product(name: "Store Split", package: "swift-storage-split"),
+                .product(name: "Store Split", package: "swift-store"),
                 .product(name: "Storage", package: "swift-storage"),
                 .product(name: "Storage Memory", package: "swift-storage-memory"),
                 .product(
