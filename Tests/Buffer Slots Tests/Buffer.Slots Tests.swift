@@ -4,7 +4,7 @@ import Buffer_Slots_Test_Support
 import Cardinal
 import Index
 import Memory
-import Memory_Allocator_Primitive
+import Memory_Allocator
 import Memory_Small
 import Ordinal
 import Storage
