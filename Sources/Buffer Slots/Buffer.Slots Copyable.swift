@@ -1,4 +1,4 @@
-public import Store_Initialization
+public import Store
 public import Ordinal_Tagged
 public import Ordinal_Protocol
 public import Ordinal_Cardinal
@@ -14,10 +14,7 @@ public import Memory_Small
 public import Ordinal
 import Ordinal_Standard_Library_Integration
 public import Storage
-public import Store
-public import Store_Protocol
 public import Storage_Memory
-public import Store_Split
 public import Tagged
 
 extension Buffer.Slots where S: ~Copyable, S.Element: Copyable {

@@ -1,8 +1,6 @@
 import Cardinal_Tagged
 import Cardinal_Carrier
 import Ordinal_Tagged
-import Store_Initialization
-import Store_Protocol
 import Store
 import Buffer
 import Buffer_Slots
@@ -15,7 +13,6 @@ import Memory_Small
 import Ordinal
 import Storage
 import Storage_Memory
-import Store_Split
 import Tagged
 import Testing
 
