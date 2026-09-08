@@ -1,5 +1,4 @@
 import Cardinal_Tagged
-import Cardinal_Carrier
 import Ordinal_Tagged
 import Store
 import Buffer

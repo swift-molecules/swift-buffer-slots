@@ -21,6 +21,18 @@ let package = Package(
     ],
     dependencies: [
         .package(
+            url: "https://github.com/swift-molecules/swift-cardinal-tagged.git",
+            branch: "main"
+        ),
+        .package(
+            url: "https://github.com/swift-molecules/swift-ordinal-cardinal.git",
+            branch: "main"
+        ),
+        .package(
+            url: "https://github.com/swift-molecules/swift-ordinal-tagged.git",
+            branch: "main"
+        ),
+        .package(
             url: "https://github.com/swift-atoms/swift-store.git",
             branch: "main"
         ),
@@ -78,11 +90,9 @@ let package = Package(
                 .product(name: "Buffer", package: "swift-buffer"),
                 .product(name: "Store", package: "swift-store"),
                 .product(name: "Storage", package: "swift-storage"),
-                .product(name: "Cardinal Carrier", package: "swift-cardinal"),
-                .product(name: "Cardinal Tagged", package: "swift-cardinal"),
-                .product(name: "Ordinal Cardinal", package: "swift-ordinal"),
-                .product(name: "Ordinal Protocol", package: "swift-ordinal"),
-                .product(name: "Ordinal Tagged", package: "swift-ordinal"),
+                .product(name: "Cardinal Tagged", package: "swift-cardinal-tagged"),
+                .product(name: "Ordinal Cardinal", package: "swift-ordinal-cardinal"),
+                .product(name: "Ordinal Tagged", package: "swift-ordinal-tagged"),
                 .product(
                     name: "Memory Allocator",
                     package: "swift-memory-allocation"
@@ -97,12 +107,12 @@ let package = Package(
                 .product(name: "Memory", package: "swift-memory"),
                 .product(name: "Affine", package: "swift-affine"),
                 .product(
-                    name: "Affine Standard Library Integration",
+                    name: "Affine",
                     package: "swift-affine"
                 ),
                 .product(name: "Ordinal", package: "swift-ordinal"),
                 .product(
-                    name: "Ordinal Standard Library Integration",
+                    name: "Ordinal",
                     package: "swift-ordinal"
                 ),
                 .product(name: "Cardinal", package: "swift-cardinal"),
@@ -123,9 +133,8 @@ let package = Package(
             dependencies: [
                 .product(name: "Store", package: "swift-store"),
                 .product(name: "Ordinal", package: "swift-ordinal"),
-                .product(name: "Ordinal Tagged", package: "swift-ordinal"),
-                .product(name: "Cardinal Carrier", package: "swift-cardinal"),
-                .product(name: "Cardinal Tagged", package: "swift-cardinal"),
+                .product(name: "Ordinal Tagged", package: "swift-ordinal-tagged"),
+                .product(name: "Cardinal Tagged", package: "swift-cardinal-tagged"),
                 "Buffer Slots",
                 "Buffer Slots Test Support",
                 .product(name: "Buffer", package: "swift-buffer"),
