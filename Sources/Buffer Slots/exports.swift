@@ -1,8 +1,8 @@
-public import Ordinal_Tagged
-public import Ordinal
-public import Ordinal_Cardinal
-public import Cardinal_Tagged
-public import Cardinal
+import Ordinal_Tagged
+import Ordinal
+import Ordinal_Cardinal
+import Cardinal_Tagged
+import Cardinal
 @_exported public import Buffer
 @_exported public import Memory
 @_exported public import Memory_Allocator

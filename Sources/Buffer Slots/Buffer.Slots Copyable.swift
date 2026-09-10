@@ -1,7 +1,7 @@
 public import Store
-public import Ordinal_Tagged
-public import Ordinal_Cardinal
-public import Cardinal_Tagged
+import Ordinal_Tagged
+import Ordinal_Cardinal
+import Cardinal_Tagged
 import Affine
 public import Buffer
 public import Cardinal

@@ -1,11 +1,11 @@
 public import Store
-public import Ordinal_Tagged
-public import Ordinal
-public import Ordinal_Cardinal
-public import Cardinal_Tagged
-public import Cardinal
+import Ordinal_Tagged
+import Ordinal
+import Ordinal_Cardinal
+import Cardinal_Tagged
+import Cardinal
 public import Buffer
-public import Storage
+import Storage
 
 extension Buffer where S: Store.`Protocol`, S: ~Copyable {
 
