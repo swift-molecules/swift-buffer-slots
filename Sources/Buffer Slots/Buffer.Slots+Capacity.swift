@@ -1,7 +1,9 @@
 public import Store
-import Ordinal_Tagged
-import Ordinal_Cardinal
-import Cardinal_Tagged
+import Cardinal
+import Ordinal
+import Property
+import Tagged
+import Carrier
 import Affine
 public import Buffer
 public import Cardinal
@@ -10,9 +12,7 @@ public import Memory
 public import Memory_Allocator
 public import Memory_Small
 public import Ordinal
-import Ordinal
 public import Storage
-public import Storage_Memory
 public import Tagged
 
 extension Buffer.Slots where S: ~Copyable {

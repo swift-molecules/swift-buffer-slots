@@ -21,18 +21,6 @@ let package = Package(
     ],
     dependencies: [
         .package(
-            url: "https://github.com/swift-molecules/swift-cardinal-tagged.git",
-            branch: "main"
-        ),
-        .package(
-            url: "https://github.com/swift-molecules/swift-ordinal-cardinal.git",
-            branch: "main"
-        ),
-        .package(
-            url: "https://github.com/swift-molecules/swift-ordinal-tagged.git",
-            branch: "main"
-        ),
-        .package(
             url: "https://github.com/swift-atoms/swift-store.git",
             branch: "main"
         ),
@@ -43,20 +31,10 @@ let package = Package(
 
         .package(
             url: "https://github.com/swift-atoms/swift-storage.git",
-            branch: "main"
-        ),
+            branch: "main", traits: ["Generational", "Memory"]),
         .package(
             url: "https://github.com/swift-molecules/swift-memory-allocation.git",
-            branch: "main"
-        ),
-        .package(
-            url: "https://github.com/swift-molecules/swift-memory-small.git",
-            branch: "main"
-        ),
-        .package(
-            url: "https://github.com/swift-molecules/swift-storage-memory.git",
-            branch: "main"
-        ),
+            branch: "main", traits: ["MemorySmall"]),
         .package(
             url: "https://github.com/swift-atoms/swift-index.git",
             branch: "main"
@@ -81,6 +59,8 @@ let package = Package(
             url: "https://github.com/swift-atoms/swift-tagged.git",
             branch: "main"
         ),
+        .package(url: "https://github.com/swift-atoms/swift-carrier.git", branch: "main"),
+        .package(url: "https://github.com/swift-atoms/swift-property.git", branch: "main"),
     ],
     targets: [
 
@@ -90,9 +70,6 @@ let package = Package(
                 .product(name: "Buffer", package: "swift-buffer"),
                 .product(name: "Store", package: "swift-store"),
                 .product(name: "Storage", package: "swift-storage"),
-                .product(name: "Cardinal Tagged", package: "swift-cardinal-tagged"),
-                .product(name: "Ordinal Cardinal", package: "swift-ordinal-cardinal"),
-                .product(name: "Ordinal Tagged", package: "swift-ordinal-tagged"),
                 .product(
                     name: "Memory Allocator",
                     package: "swift-memory-allocation"
@@ -101,8 +78,6 @@ let package = Package(
                     name: "Memory Allocator Protocol",
                     package: "swift-memory-allocation"
                 ),
-                .product(name: "Memory Small", package: "swift-memory-small"),
-                .product(name: "Storage Memory", package: "swift-storage-memory"),
                 .product(name: "Index", package: "swift-index"),
                 .product(name: "Memory", package: "swift-memory"),
                 .product(name: "Affine", package: "swift-affine"),
@@ -117,6 +92,9 @@ let package = Package(
                 ),
                 .product(name: "Cardinal", package: "swift-cardinal"),
                 .product(name: "Tagged", package: "swift-tagged"),
+                .product(name: "Carrier", package: "swift-carrier"),
+                .product(name: "Property", package: "swift-property"),
+                .product(name: "Memory Small", package: "swift-memory-allocation"),
             ]
         ),
 
@@ -133,22 +111,20 @@ let package = Package(
             dependencies: [
                 .product(name: "Store", package: "swift-store"),
                 .product(name: "Ordinal", package: "swift-ordinal"),
-                .product(name: "Ordinal Tagged", package: "swift-ordinal-tagged"),
-                .product(name: "Cardinal Tagged", package: "swift-cardinal-tagged"),
                 "Buffer Slots",
                 "Buffer Slots Test Support",
                 .product(name: "Buffer", package: "swift-buffer"),
                 .product(name: "Storage", package: "swift-storage"),
-                .product(name: "Storage Memory", package: "swift-storage-memory"),
                 .product(
                     name: "Memory Allocator",
                     package: "swift-memory-allocation"
                 ),
-                .product(name: "Memory Small", package: "swift-memory-small"),
                 .product(name: "Memory", package: "swift-memory"),
                 .product(name: "Index", package: "swift-index"),
                 .product(name: "Cardinal", package: "swift-cardinal"),
                 .product(name: "Tagged", package: "swift-tagged"),
+                .product(name: "Property", package: "swift-property"),
+                .product(name: "Memory Small", package: "swift-memory-allocation"),
             ]
         ),
     ],

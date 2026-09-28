@@ -1,8 +1,9 @@
 public import Store
-import Ordinal_Tagged
+import Cardinal
 import Ordinal
-import Ordinal_Cardinal
-import Cardinal_Tagged
+import Property
+import Tagged
+import Carrier
 public import Buffer
 public import Cardinal
 import Storage

@@ -1,18 +1,16 @@
-import Cardinal_Tagged
-import Ordinal_Tagged
+import Cardinal
+import Tagged
+import Ordinal
+import Property
 import Store
 import Buffer
 import Buffer_Slots
 import Buffer_Slots_Test_Support
-import Cardinal
 import Index
 import Memory
 import Memory_Allocator
 import Memory_Small
-import Ordinal
 import Storage
-import Storage_Memory
-import Tagged
 import Testing
 
 private typealias Slots = Buffer<
