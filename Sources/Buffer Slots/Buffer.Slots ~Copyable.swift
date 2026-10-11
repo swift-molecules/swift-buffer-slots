@@ -1,8 +1,8 @@
 public import Store
-import Cardinal
-import Ordinal
+public import Cardinal
+public import Ordinal
 import Property
-import Tagged
+public import Tagged
 import Carrier
 import Affine
 public import Buffer
@@ -114,7 +114,7 @@ extension Buffer.Slots where S: ~Copyable {
 extension Buffer.Slots where S: ~Copyable {
 
     @inlinable
-    public func withMetadataPointer<M: BitwiseCopyable, E: ~Copyable, R, Failure: Swift.Error>(
+    public func withMetadataPointer<M: BitwiseCopyable, E: ~Copyable, R, Failure: Swift::Error>(
         _ body: (UnsafePointer<M>) throws(Failure) -> R
     ) throws(Failure) -> R
     where
@@ -137,7 +137,7 @@ extension Buffer.Slots where S: ~Copyable {
         M: BitwiseCopyable,
         E: ~Copyable,
         R,
-        Failure: Swift.Error
+        Failure: Swift::Error
     >(
         _ body: (UnsafeMutablePointer<M>) throws(Failure) -> R
     ) throws(Failure) -> R

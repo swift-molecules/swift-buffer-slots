@@ -1,8 +1,8 @@
 public import Store
-import Cardinal
-import Ordinal
+public import Cardinal
+public import Ordinal
 import Property
-import Tagged
+public import Tagged
 import Carrier
 import Affine
 public import Buffer
