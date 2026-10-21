@@ -1,12 +1,10 @@
-public import Store
-public import Cardinal
-import Ordinal
-import Property
-public import Tagged
-import Carrier
 public import Buffer
 public import Cardinal
+import Carrier
+import Ordinal
+import Property
 import Storage
+public import Store
 public import Tagged
 
 extension Buffer.Slots where S: ~Copyable {

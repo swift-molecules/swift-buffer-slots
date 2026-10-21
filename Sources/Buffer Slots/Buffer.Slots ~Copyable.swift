@@ -1,18 +1,15 @@
-public import Store
-public import Cardinal
-public import Ordinal
-import Property
-public import Tagged
-import Carrier
 import Affine
 public import Buffer
 public import Cardinal
+import Carrier
 public import Index
 public import Memory
 public import Memory_Allocator
 public import Memory_Small
 public import Ordinal
+import Property
 public import Storage
+public import Store
 public import Tagged
 
 extension Buffer.Slots where S: ~Copyable {
@@ -127,7 +124,10 @@ extension Buffer.Slots where S: ~Copyable {
             let span = lanes.span
             return try span.withUnsafeBufferPointer { buffer throws(Failure) -> R in
 
-                try unsafe body(buffer.baseAddress!)
+                guard let base = buffer.baseAddress else {
+                    preconditionFailure("Metadata lane span is non-empty and has a base address")
+                }
+                return try unsafe body(base)
             }
         }
     }
@@ -151,7 +151,10 @@ extension Buffer.Slots where S: ~Copyable {
             var span = lanes.mutableSpan
             return try span.withUnsafeMutableBufferPointer { buffer throws(Failure) -> R in
 
-                try unsafe body(buffer.baseAddress!)
+                guard let base = buffer.baseAddress else {
+                    preconditionFailure("Metadata lane span is non-empty and has a base address")
+                }
+                return try unsafe body(base)
             }
         }
     }

@@ -1,11 +1,11 @@
-public import Store
+public import Buffer
 import Cardinal
+import Carrier
 import Ordinal
 import Property
-import Tagged
-import Carrier
-public import Buffer
 import Storage
+public import Store
+import Tagged
 
 extension Buffer where S: Store.`Protocol`, S: ~Copyable {
 

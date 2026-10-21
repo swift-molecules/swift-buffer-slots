@@ -1,18 +1,15 @@
-public import Store
-public import Cardinal
-public import Ordinal
-import Property
-public import Tagged
-import Carrier
 import Affine
 public import Buffer
 public import Cardinal
+import Carrier
 public import Index
 public import Memory
 public import Memory_Allocator
 public import Memory_Small
 public import Ordinal
+import Property
 public import Storage
+public import Store
 public import Tagged
 
 extension Buffer.Slots where S: ~Copyable {
