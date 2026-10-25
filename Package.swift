@@ -85,15 +85,7 @@ let package = Package(
                 .product(name: "Index", package: "swift-index"),
                 .product(name: "Memory", package: "swift-memory"),
                 .product(name: "Affine", package: "swift-affine"),
-                .product(
-                    name: "Affine",
-                    package: "swift-affine"
-                ),
                 .product(name: "Ordinal", package: "swift-ordinal"),
-                .product(
-                    name: "Ordinal",
-                    package: "swift-ordinal"
-                ),
                 .product(name: "Cardinal", package: "swift-cardinal"),
                 .product(name: "Tagged", package: "swift-tagged"),
                 .product(name: "Carrier", package: "swift-carrier"),
