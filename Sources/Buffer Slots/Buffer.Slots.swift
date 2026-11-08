@@ -1,16 +1,16 @@
+import Affine
 public import Buffer
 import Cardinal
 import Carrier
+public import Index
+public import Memory
+public import Memory_Allocator
+public import Memory_Small
 import Ordinal
 import Property
 import Storage
 public import Store
 import Tagged
-import Affine
-public import Index
-public import Memory
-public import Memory_Allocator
-public import Memory_Small
 
 extension Buffer where S: Store.`Protocol`, S: ~Copyable {
 
