@@ -193,9 +193,7 @@ extension Buffer.Slots where S: ~Copyable {
         var lanes = Storage<Memory.Allocator<Memory.Small<0>>>.Contiguous<M>.create(
             minimumCapacity: capacity.retag(M.self)
         )
-        lanes.withOutputSpan(addingCapacity: capacity.retag(M.self)) { span in
-            span.append(repeating: metadataInitial, count: span.freeCapacity)
-        }
+        lanes.fill(with: metadataInitial)
         self.init(
             header: Header(capacity: capacity),
             storage: Store.Split(

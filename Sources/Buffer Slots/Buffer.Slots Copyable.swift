@@ -32,9 +32,7 @@ extension Buffer.Slots where S: ~Copyable {
         >
     {
         storage.elements.initialization = .empty
-        storage.elements.withOutputSpan(addingCapacity: header.capacity) { span in
-            span.append(repeating: value, count: span.freeCapacity)
-        }
+        storage.elements.fill(with: value)
     }
 }
 
