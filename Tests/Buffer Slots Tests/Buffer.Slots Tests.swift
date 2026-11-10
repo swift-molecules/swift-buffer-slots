@@ -277,3 +277,105 @@ extension `Buffer.Slots Tests`.Integration {
         #expect(matches == [1, 4, 6])
     }
 }
+
+extension `Buffer.Slots Tests`.Unit {
+
+    @Test
+    func `a new buffer holds the initial metadata in every slot`() {
+        let buffer = Slots(capacity: capacity(5), metadataInitial: 0x5A)
+        var metadata: [UInt8] = []
+        (0..<5).forEach { position in
+            metadata.append(buffer[metadata: slot(UInt(position))])
+        }
+        #expect(metadata == [0x5A, 0x5A, 0x5A, 0x5A, 0x5A])
+    }
+
+    @Test
+    func `fill payload writes the value into every slot, and again over what is there`() {
+        var buffer = Slots(capacity: capacity(5), metadataInitial: 0x80)
+        buffer.fill(payload: 7)
+        var first: [Int] = []
+        (0..<5).forEach { position in
+            first.append(buffer[payload: slot(UInt(position))])
+        }
+        #expect(first == [7, 7, 7, 7, 7])
+
+        buffer[payload: slot(2)] = 99
+        buffer.fill(payload: -3)
+        var second: [Int] = []
+        (0..<5).forEach { position in
+            second.append(buffer[payload: slot(UInt(position))])
+        }
+        #expect(second == [-3, -3, -3, -3, -3])
+    }
+
+    @Test
+    func `fill metadata writes every slot each time it is called`() {
+        var buffer = Slots(capacity: capacity(5), metadataInitial: 0x80)
+        buffer.fill(metadata: 0x11)
+        buffer[metadata: slot(4)] = 0x42
+        buffer.fill(metadata: 0x22)
+        var metadata: [UInt8] = []
+        (0..<5).forEach { position in
+            metadata.append(buffer[metadata: slot(UInt(position))])
+        }
+        #expect(metadata == [0x22, 0x22, 0x22, 0x22, 0x22])
+    }
+
+    @Test
+    func `clone holds the same metadata and payload in every slot`() {
+        var buffer = Slots(capacity: capacity(4), metadataInitial: 0x80)
+        buffer.fill(payload: 0)
+        (0..<4).forEach { position in
+            buffer[metadata: slot(UInt(position))] = UInt8(10 + position)
+            buffer[payload: slot(UInt(position))] = 100 + position
+        }
+
+        let copy = buffer.clone()
+
+        let copyCapacity = copy.capacity
+        #expect(copyCapacity == capacity(4))
+        var metadata: [UInt8] = []
+        var payload: [Int] = []
+        (0..<4).forEach { position in
+            metadata.append(copy[metadata: slot(UInt(position))])
+            payload.append(copy[payload: slot(UInt(position))])
+        }
+        #expect(metadata == [10, 11, 12, 13])
+        #expect(payload == [100, 101, 102, 103])
+    }
+
+    @Test
+    func `clone and original change apart`() {
+        var buffer = Slots(capacity: capacity(2), metadataInitial: 0x80)
+        buffer.fill(payload: 1)
+
+        var copy = buffer.clone()
+        copy[metadata: slot(0)] = 0x01
+        copy[payload: slot(0)] = 50
+        buffer[metadata: slot(1)] = 0x02
+        buffer[payload: slot(1)] = 60
+
+        let originalMetadata = [buffer[metadata: slot(0)], buffer[metadata: slot(1)]] as [UInt8]
+        let originalPayload = [buffer[payload: slot(0)], buffer[payload: slot(1)]]
+        let copyMetadata = [copy[metadata: slot(0)], copy[metadata: slot(1)]] as [UInt8]
+        let copyPayload = [copy[payload: slot(0)], copy[payload: slot(1)]]
+        #expect(originalMetadata == [0x80, 0x02])
+        #expect(originalPayload == [1, 60])
+        #expect(copyMetadata == [0x01, 0x80])
+        #expect(copyPayload == [50, 1])
+    }
+}
+
+extension `Buffer.Slots Tests`.`Edge Case` {
+
+    @Test
+    func `a buffer of no slots can be made, filled and cloned`() {
+        var buffer = Slots(capacity: capacity(0), metadataInitial: 0x80)
+        buffer.fill(metadata: 0x01)
+        buffer.fill(payload: 1)
+        let copy = buffer.clone()
+        let copyCapacity = copy.capacity
+        #expect(copyCapacity == capacity(0))
+    }
+}

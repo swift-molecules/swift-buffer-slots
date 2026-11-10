@@ -101,12 +101,8 @@ extension Buffer.Slots where S: ~Copyable {
             Storage<Memory.Allocator<Memory.Small<0>>>.Contiguous<E>
         >
     {
-        var slot: Index<M> = .zero
-        let end = header.capacity.retag(M.self).map { Ordinal($0.rawValue) }
-        while slot < end {
-            storage.lanes.initialize(at: slot, to: value)
-            slot += .one
-        }
+        var lanes = storage.lanes.mutableSpan(count: header.capacity.retag(M.self))
+        lanes.update(repeating: value)
     }
 
     @inlinable
@@ -197,11 +193,8 @@ extension Buffer.Slots where S: ~Copyable {
         var lanes = Storage<Memory.Allocator<Memory.Small<0>>>.Contiguous<M>.create(
             minimumCapacity: capacity.retag(M.self)
         )
-        var slot: Index<M> = .zero
-        let end = capacity.retag(M.self).map { Ordinal($0.rawValue) }
-        while slot < end {
-            lanes.initialize(at: slot, to: metadataInitial)
-            slot += .one
+        lanes.withOutputSpan(addingCapacity: capacity.retag(M.self)) { span in
+            span.append(repeating: metadataInitial, count: span.freeCapacity)
         }
         self.init(
             header: Header(capacity: capacity),
